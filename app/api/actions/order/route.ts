@@ -4,7 +4,9 @@ import {
     createPostResponse,
     ActionGetResponse,
     ActionPostRequest,
+    MEMO_PROGRAM_ID,
 } from "@solana/actions";
+import { clusterApiUrl, ComputeBudgetProgram, Connection, PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js";
 
 const headers = createActionHeaders({
     chainId: "devnet", // or chainId: "devnet"
@@ -53,8 +55,8 @@ export const GET = async () => {
                             label: "Wallet address (optional for NFT drop)",
                             required: false,
                         },
-
-                    ]
+                    ],
+                    type: "message"
                 }
             ]
         }
@@ -69,34 +71,42 @@ export const OPTIONS = GET;
 
 export const POST = async (req: Request) => {
     const body: ActionPostRequest = await req.json();
+    let account: PublicKey;
 
-    // insert transaction logic here
-    // Simulate a transaction
-    const transaction = {
-        id: Math.random().toString(36).substring(7),
-        status: 'completed',
-        timestamp: new Date().toISOString()
-    };
+    const connection = new Connection(
+        process.env.SOLANA_RPCM! || clusterApiUrl('mainnet-beta'),
+    );
+    try {
+        account = new PublicKey(body.account);
+    } catch (error) {
+        return new Response(`Invalid "account" provided: ${error}`, {
+            status: 400,
+            headers,
+        });
+    }
 
-    // Log the order details
-    console.log('Order received:', {
-        name: body.fields.name,
-        email: body.fields.email,
-        quantity: body.fields.quantity,
-        message: body.fields.message,
-        wallet: body.fields.wallet,
-        transaction
-    });
+    const transaction = new Transaction().add(
+        ComputeBudgetProgram.setComputeUnitPrice({
+            microLamports: 1000,
+        }),
+        new TransactionInstruction({
+            programId: new PublicKey(MEMO_PROGRAM_ID),
+            data: Buffer.from('I just ordered some SPL cards!', 'utf8'),
+            keys: [],
+        }),
+    );
 
-    // Here you would typically interact with your database or payment system
-    // For now, we'll just return the simulated transaction
+    transaction.feePayer = account;
 
-
+    transaction.recentBlockhash = (
+        await connection.getLatestBlockhash()
+    ).blockhash;
     const payload: ActionPostResponse = await createPostResponse({
         fields: {
             transaction,
-            message: "I just ordered some SPL cards!",
-        },
+            message: "Congratulations! Your SPL cards have been ordered.",
+            type: "transaction",
+        }
     });
 
     return Response.json(payload, {

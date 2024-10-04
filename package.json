@@ -11,6 +11,7 @@
   "dependencies": {
     "@dialectlabs/blinks": "^0.13.0-beta.1",
     "@solana/actions": "^1.6.5",
+    "@solana/web3.js": "^1.95.3",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18"
