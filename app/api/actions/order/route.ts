@@ -14,7 +14,7 @@ const headers = createActionHeaders({
 export const GET = async () => {
     const payload: ActionGetResponse = {
         title: 'Order SPL Cards v2',
-        icon: 'http:/localhost:3000/splcards.png',
+        icon: 'https://blink.splcards.com/splcards.png',
         label: 'Order SPL Cards',
         description: 'Great for those well-versed in crypto, and for those that are new here.',
         links: {
