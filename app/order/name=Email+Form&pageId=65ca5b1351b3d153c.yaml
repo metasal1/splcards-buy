@@ -1,0 +1,25 @@
+name=Email+Form&pageId=65ca5b1351b3d153c215c8a9&elementId=a9f8b697-474a-8107-d630-0a8f61eab326&source=https%3A%2F%2Fwww.splcards.com%2Fpre-order&test=false&fields%5BName%5D=sal&fields%5BEmail%5D=gm%40metasal.xyz&fields%5BQuantity%5D=1&fields%5Bwallet%5D=Gax&fields%5BMessage%25202%5D=message+text&fields%5Breferal%5D=metasal&dolphin=false
+
+
+POST
+
+https://webflow.com/api/v1/form/65ca5b1351b3d153c215c863
+
+
+https://webflow.com/api/v1/form/65ca5b1351b3d153c215c863
+
+
+{
+	"name": "Email+Form",
+	"pageId": "65ca5b1351b3d153c215c8a9",
+	"elementId": "a9f8b697-474a-8107-d630-0a8f61eab326",
+	"source": "https://www.splcards.com/pre-order",
+	"test": "false",
+	"fields[Name]": "sal",
+	"fields[Email]": "gm@metasal.xyz",
+	"fields[Quantity]": "1",
+	"fields[wallet]": "Gax",
+	"fields[Message%202]": "message+text",
+	"fields[referal]": "metasal",
+	"dolphin": "false"
+}
